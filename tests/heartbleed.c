@@ -8,7 +8,7 @@
 #define s2n(s,c)	((c[0]=(unsigned char)(((s)>> 8)&0xff), \
 			  c[1]=(unsigned char)(((s)    )&0xff)),c+=2)
 
-#include "taintgrind.h"
+#include "taintfuzz.h"
 
 int
 dtls1_process_heartbeat(char *p)//SSL *s)

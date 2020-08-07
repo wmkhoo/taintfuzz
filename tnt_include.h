@@ -29,7 +29,7 @@
 #ifndef __TNT_INCLUDE_H
 #define __TNT_INCLUDE_H
 
-#include "taintgrind.h"
+#include "taintfuzz.h"
 
 #define STACK_TRACE_SIZE 20
 

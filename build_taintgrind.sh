@@ -19,12 +19,12 @@ cd ../ && \
     make install
 
 # build capstone
-cd taintgrind && \
-    wget https://github.com/aquynh/capstone/archive/3.0.4.tar.gz -O capstone.tar.gz && \
-    tar xf capstone.tar.gz && \
-    sh configure_capstone.sh `pwd`/../build && \
-    cd capstone-3.0.4 && \
-    sh make_capstone.sh
+#cd taintgrind && \
+#    wget https://github.com/aquynh/capstone/archive/3.0.4.tar.gz -O capstone.tar.gz && \
+#    tar xf capstone.tar.gz && \
+#    sh configure_capstone.sh `pwd`/../build && \
+#    cd capstone-3.0.4 && \
+#    sh make_capstone.sh
 
 # build taintgrind
 cd ../ && \

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "taintgrind.h"
+#include "taintfuzz.h"
 
 int main() {
     unsigned char input[30];

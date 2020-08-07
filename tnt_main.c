@@ -50,7 +50,7 @@
 #include "tnt_include.h"
 #include "tnt_strings.h"
 #include "tnt_structs.h"
-#include "tnt_asm.h"
+//#include "tnt_asm.h"
 
 
 /*------------------------------------------------------------*/
@@ -160,7 +160,7 @@ void bookkeeping_taint(IRStmt *clone, UWord taint);
 Int exit_early (IRStmt *clone, UWord taint);
 Int exit_early_data (IRExpr *e, UWord taint);
 void do_smt2(IRStmt *clone, UWord value, UWord taint);
-void print_asm(ULong pc);
+//void print_asm(ULong pc);
 int print_insn_type(ULong pc, IRStmt *clone, UWord size);
 void print_info_flow(IRStmt *clone, UWord taint);
 void print_info_flow_tmp(IRExpr *e, Int print_leading_space);
@@ -2735,14 +2735,14 @@ void do_smt2(IRStmt *clone, UWord value, UWord taint) {
 }
 
 
-// Print asm
-void print_asm(ULong pc) {
-   char assem[128] = "\0";
-   tl_assert ( TNT_(asm_guest_pprint)(pc, 16, assem, sizeof(assem) ) && "Failed TNT_(asm_guest_pprint)");
-   if ( istty ) VG_(printf)("%s", KGRN);
-   VG_(printf)("%s", assem);
-   if ( istty ) VG_(printf)("%s", KNRM);
-}
+//// Print asm
+//void print_asm(ULong pc) {
+//   char assem[128] = "\0";
+//   tl_assert ( TNT_(asm_guest_pprint)(pc, 16, assem, sizeof(assem) ) && "Failed TNT_(asm_guest_pprint)");
+//   if ( istty ) VG_(printf)("%s", KGRN);
+//   VG_(printf)("%s", assem);
+//   if ( istty ) VG_(printf)("%s", KNRM);
+//}
 
 
 // Prints insn type for log2dot.py to parse
@@ -2813,21 +2813,21 @@ int print_insn_type(ULong pc, IRStmt *clone, UWord size) {
                break;
             }
             case Iex_Load:
-               print_asm(pc);
+               //print_asm(pc);
                //ppIRStmt(clone);
-               VG_(printf)(" | ");
+               //VG_(printf)(" | ");
                VG_(printf)("Load:%d", (int)size);
                break;
             case Iex_ITE:
-               print_asm(pc);
+               //print_asm(pc);
                //ppIRStmt(clone);
-               VG_(printf)(" | ");
+               //VG_(printf)(" | ");
                VG_(printf)("ITE");
                break;
             case Iex_CCall:
-               print_asm(pc);
+               //print_asm(pc);
                //ppIRStmt(clone);
-               VG_(printf)(" | ");
+               //VG_(printf)(" | ");
                VG_(printf)("%s", data->Iex.CCall.cee->name);
                break;
             default:
@@ -2836,21 +2836,21 @@ int print_insn_type(ULong pc, IRStmt *clone, UWord size) {
          break;
       }
       case Ist_Store:
-         print_asm(pc);
+         //print_asm(pc);
          //ppIRStmt(clone);
-         VG_(printf)(" | ");
+         //VG_(printf)(" | ");
          VG_(printf)("Store:%d", (int)size);
          break;
       case Ist_Dirty:
-         print_asm(pc);
+         //print_asm(pc);
          //ppIRStmt(clone);
-         VG_(printf)(" | ");
+         //VG_(printf)(" | ");
          VG_(printf)("%s", clone->Ist.Dirty.details->cee->name);
          break;
       case Ist_Exit:
-         print_asm(pc);
+         //print_asm(pc);
          //ppIRStmt(clone);
-         VG_(printf)(" | ");
+         //VG_(printf)(" | ");
          VG_(printf)("IfGoto");
          break;
       default:
@@ -3817,17 +3817,17 @@ Bool TNT_(handle_client_requests) ( ThreadId tid, UWord* arg, UWord* ret ) {
 HChar         TNT_(clo_file_filter)[MAX_PATH]  ;
 Int           TNT_(clo_taint_start)            = 0;
 Int           TNT_(clo_taint_len)              = 0x800000;
-Bool          TNT_(clo_taint_all)              = False;
+Bool          TNT_(clo_taint_all)              = True;
 Bool          TNT_(clo_tainted_ins_only)       = True;
 Bool          TNT_(clo_critical_ins_only)      = False;
-Bool          TNT_(clo_compact)                = False;
+Bool          TNT_(clo_compact)                = True;
 Bool          TNT_(clo_taint_network)          = False;
 Bool          TNT_(clo_taint_stdin)            = False;
 Int           TNT_(do_print)                   = 0;
 //Char*         TNT_(clo_allowed_syscalls)       = "";
 //Bool          TNT_(read_syscalls_file)         = False;
 Bool          TNT_(clo_smt2)                   = False;
-Bool          TNT_(clo_head)                   = False;
+Bool          TNT_(clo_head)                   = True;
 
 void init_soaap_data(void);
 
@@ -3980,9 +3980,9 @@ static void tnt_post_clo_init(void)
    // If taint-stdin=yes, prepare stdin for tainting
    TNT_(setup_tainted_map)();
 
-   if (! TNT_(asm_init)() ) {
-      VG_(tool_panic)("tnt_main.c: tnt_post_clo_init: assembly engine initialization failed");
-   }
+   //if (! TNT_(asm_init)() ) {
+   //   VG_(tool_panic)("tnt_main.c: tnt_post_clo_init: assembly engine initialization failed");
+   //}
 }
 
 static void tnt_fini(Int exitcode)
@@ -3996,7 +3996,7 @@ static void tnt_fini(Int exitcode)
 
 static void tnt_pre_clo_init(void)
 {
-   VG_(details_name)            ("Taintgrind");
+   VG_(details_name)            ("Taintfuzz");
    VG_(details_version)         (NULL);
    VG_(details_description)     ("the taint analysis tool");
    VG_(details_copyright_author)(
@@ -4012,7 +4012,7 @@ static void tnt_pre_clo_init(void)
    VG_(needs_syscall_wrapper)     ( tnt_pre_syscall,
                                     tnt_post_syscall );
 
-   VG_(needs_var_info)          ();
+   //VG_(needs_var_info)          ();
 
    init_shadow_memory();
 

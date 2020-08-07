@@ -1,7 +1,7 @@
 /* misprint.c */
 #include <stdio.h>
 #include <stdlib.h>
-#include "taintgrind.h"
+#include "taintfuzz.h"
 
 void hello_function()
 {

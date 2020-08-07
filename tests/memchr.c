@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "taintgrind.h"
+#include "taintfuzz.h"
 
 int main() {
     int n = 100;

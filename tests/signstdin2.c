@@ -1,4 +1,4 @@
-#include "taintgrind.h"
+#include "taintfuzz.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
